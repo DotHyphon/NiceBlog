@@ -14,20 +14,18 @@
 
     <div class="container">
         <div class="row">
-            <!-- main column -->
             <div class="col-md-8">
 
-                <form class="mb-5">
+                <form class="mb-5" action="/blog/api.php" method="POST">
                     <div class="form-group">
                       <label for="title">Title</label>
-                      <input type="text" class="form-control" id="title" placeholder="Enter title">
+                      <input type="text" class="form-control" id="title" placeholder="Enter title" name="title">
                     </div>
                     <div class="form-group mb-2">
                       <label for="content">Content</label>
-                      <textarea class="form-control" id="content" rows="3"></textarea>
+                      <textarea class="form-control" id="content" rows="3" name="content"></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
-                  </form>
                 </form>
 
                 <div class="card mb-5">
