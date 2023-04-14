@@ -10,24 +10,44 @@
       die("Connection failed: " . $conn->connect_error);
    }
 
-   echo 'connected';
-
    $sql = "SELECT * FROM Users";
-   $result = mysqli_query($conn, $sql);
-   $users = mysqli_fetch_all($result, MYSQLI_ASSOC);
+   $result = $conn -> query($sql);
+   $users = $result->fetch_all(MYSQLI_ASSOC);
 
-   var_dump($users);
 
-   //  if ($_SERVER['REQUEST_METHOD'] === 'POST')
-   //  {
-   //      //Ok we got a POST, probably from a FORM, read from $_POST.
-   //      var_dump($_POST['title']); //Use this to see what info we got!
-   //  }
-   //  else
-   //  {
-   //     //You could assume you got a GET
-   //     var_dump($_GET); //Use this to see what info we got!
-   //  }
+
+   function get_user($email) {
+      global $users;
+      foreach ($users as $user) {
+         if ($user['email'] == $email) {
+            return $user;
+         }
+      }
+      return null;
+   }
+
+   function create_user() {
+      global $conn;
+      $name = $_POST['name'];
+      $email = $_POST['email'];
+      $password = $_POST['password'];
+      $sql = "INSERT INTO Users (name, email, password) VALUES ('$name', '$email', '$password')";
+      $result = $conn->query($sql);
+      if ($result) {
+         echo "User created successfully";
+      } else {
+         echo "Error: " . $sql . "<br>" . $conn->error;
+      }
+   }
+
+   if($_SERVER['REQUEST_METHOD'] == 'POST')
+   {
+      create_user();
+   }
+
+   $result->free_result();
+
+   $conn->close();
  ?>
 
  <!DOCTYPE html>
