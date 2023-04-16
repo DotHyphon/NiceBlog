@@ -70,6 +70,22 @@
       //header('Location: ./');
    }
 
+   function create_post() {
+      global $conn;
+      $title = $_POST['title'];
+      $content = $_POST['content'];
+      $user = $_SESSION['user'];
+      $sql = "INSERT INTO posts (user, title, content) VALUES ('$user', '$title', '$content')";
+      $result = $conn->query($sql);
+      if ($result) {
+         echo "Post created successfully";
+         echo "<a href='./'>Go home</a>";
+      } else {
+         echo "Error: " . $sql . "<br>" . $conn->error;
+      }
+      echo "test";
+   }
+
    if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['create']))
    {
       create_user();
@@ -81,6 +97,10 @@
    if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['logout']))
    {
       logout_user();
+   }
+   if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['create_post']))
+   {
+      create_post();
    }
 
    $result->free_result();

@@ -1,5 +1,6 @@
     <?php include 'header.php'; ?>
-    
+
+    <?php if(isset($_SESSION['logged_in'])): ?>
     <div class="container">
         <div class="row">
             <div class="col-md-8">
@@ -13,7 +14,7 @@
                       <label for="content">Content</label>
                       <textarea class="form-control" id="content" rows="3" name="content"></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary" name="create_post">Submit</button>
                 </form>
 
                 <div class="card mb-5">
@@ -60,7 +61,7 @@
             </div>
         </div>
     </div>
-
+    <?php endif; ?>
     <footer>
         <p class="text-center"><a href="https://github.com/DotHyphon/NiceBlog">Source Code</a> by William Dean</p>
       </footer>
