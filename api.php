@@ -12,14 +12,11 @@
       die("Connection failed: " . $conn->connect_error);
    }
 
-   $sql = "SELECT * FROM Users";
-   $result = $conn -> query($sql);
-   $users = $result->fetch_all(MYSQLI_ASSOC);
-
-
-
    function get_user($email) {
-      global $users;
+      global $conn;
+      $sql = "SELECT * FROM Users";
+      $result = $conn -> query($sql);
+      $users = $result->fetch_all(MYSQLI_ASSOC);
       foreach ($users as $user) {
          if ($user['email'] == $email) {
             return $user;
@@ -30,9 +27,10 @@
 
    function create_user() {
       global $conn;
-      $name = $_POST['name'];
-      $email = $_POST['email'];
-      $password = $_POST['password'];
+      $name = $conn->real_escape_string($_POST['name']);
+      $email = $conn->mysqli_real_escape_string($_POST['email']);
+      $password = $conn->mysqli_real_escape_string($_POST['password']);
+      
       $sql = "INSERT INTO Users (name, email, password) VALUES ('$name', '$email', '$password')";
       $result = $conn->query($sql);
       if ($result) {
@@ -44,23 +42,27 @@
    }
 
    function login_user() {
-      $email_check = $_POST['email'];
-      $password_check = $_POST['password'];
+      global $conn;
+      $email_check = $conn->real_escape_string($_POST['email']);
+      $password_check = $conn->real_escape_string($_POST['password']);
       $user = get_user($email_check);
       if ($user) {
          if($user['password'] == $password_check) {
             echo "User logged in successfully";
+            echo "<a href='./'>Go home</a>";
             //header('Location: ./');
-            $_SESSION['user'] = $user['email'];
+            $_SESSION['email'] = $user['email'];
             $_SESSION['logged_in'] = true;
          }
          else {
             echo "Error: incorrect password";
+            echo "<a href='./signin.php'>Go back</a>";
          }
       } else {
          echo "Error: incorrect username";
+         echo "<a href='./signin.php'>Go back</a>";
       }
-      echo "<a href='./'>Go home</a>";
+      
    }
 
    function logout_user() {
@@ -72,10 +74,10 @@
 
    function create_post() {
       global $conn;
-      $title = $_POST['title'];
-      $content = $_POST['content'];
-      $user = $_SESSION['user'];
-      $sql = "INSERT INTO posts (user, title, content) VALUES ('$user', '$title', '$content')";
+      $title = $conn->real_escape_string($_POST['title']);
+      $content = $conn->real_escape_string($_POST['content']);
+      $email = $_SESSION['email'];
+      $sql = "INSERT INTO posts (email, title, content) VALUES ('$email', '$title', '$content')";
       $result = $conn->query($sql);
       if ($result) {
          echo "Post created successfully";
@@ -84,6 +86,14 @@
          echo "Error: " . $sql . "<br>" . $conn->error;
       }
       echo "test";
+   }
+
+   function get_posts($email) {
+      global $conn;
+      $sql = "SELECT * FROM posts WHERE email = '$email'";
+      $result = $conn->query($sql);
+      $posts = $result->fetch_all(MYSQLI_ASSOC);
+      return $posts;
    }
 
    if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['create']))
@@ -103,7 +113,7 @@
       create_post();
    }
 
-   $result->free_result();
+   //$result->free_result();
 
-   $conn->close();
+   //$conn->close();
  ?>
