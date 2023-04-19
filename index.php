@@ -1,61 +1,61 @@
-    <? include './components/header.php'; ?>
+<? include './components/header.php'; ?>
 
     
-    <div class="container">
-        <div class="row">
+<div class="container">
+    <!-- row reverse so userProfile side column goes ontop if grid becomes 1 column -->
+    <div class="row flex-row-reverse">
 
-        <? if(isset($_SESSION['logged_in']) && !isset($_GET['user_id'])): ?>
+    <? if(isset($_SESSION['logged_in']) && !isset($_GET['user_id'])): ?>
 
-            <div class="col-md-8">
-                <? include './components/createPost.php'; ?>
-
-                <!-- display users own recent posts -->
-                <? 
-                foreach(get_posts($_SESSION['user_id']) as $post) {
-                    include './components/post.php';
-                }
-                ?>
-            </div>
-  
-            <!-- current users side column -->
-            <div class="col-md-4">
-                <div class="card">
-                    <img src="./images/test1.webp" alt="" class="card-img-top p-1 mx-auto w-50">
-                    <div class="card-header fw-bold"><? echo get_user_by_id($_SESSION['user_id'])['name']; ?> </div>
-                    <div class="card-body">email: <? echo get_user_by_id($_SESSION['user_id'])['email']; ?></div>
-                    <div class="card-footer"></div>
-                </div>
-            </div>
-
-            <? elseif (isset($_GET['user_id'])): ?>
-                <!-- display user_id's recent posts -->
-                <div class="col-md-8">
-                    <? 
-                    foreach(get_posts($_GET['user_id']) as $post) {
-                        include './components/post.php';
-                    }
-                ?>
-                </div>
-
-                <!-- display user_ids side column -->
-                <div class="col-md-4">
-                    <div class="card">
-                        <img src="./images/test1.webp" alt="" class="card-img-top p-1 mx-auto w-50">
-                        <div class="card-header"><? echo get_user_by_id($_GET['user_id'])['name']; ?> </div>
-                        <div class="card-body">email: <? echo get_user_by_id($_GET['user_id'])['email']; ?></div>
-                        <div class="card-footer"></div>
-                    </div>
-                </div>
-            <? else: ?>
-                <!-- display random blog posts/accoutns -->
-                <? 
-                    foreach(get_posts() as $post) {
-                        include './components/post.php';
-                    }
-                ?>
-            <? endif; ?>
+        <!-- right hand column -->
+        <div class="col-md-4">
+            <? 
+            $p_user_id = $_SESSION['user_id']; 
+            include './components/userProfile.php'; 
+            ?>
         </div>
+
+        <!-- left hand column -->
+        <div class="col-md-8">
+            <? include './components/createPost.php'; ?>
+
+            <!-- display users own recent posts -->
+            <? 
+            foreach(get_posts($_SESSION['user_id']) as $p_post) {
+                include './components/post.php';
+            } 
+            ?>
+        </div>
+
+    <? elseif (isset($_GET['user_id'])): ?>
+        <!-- right hand column -->
+        <div class="col-md-4">
+            <?  
+            $p_user_id = $_GET['user_id']; 
+            include './components/userProfile.php';
+            ?>
+        </div>
+
+        <!-- left hand column -->
+        <div class="col-md-8">
+            <?  
+            foreach(get_posts($_GET['user_id']) as $p_post) {
+                include './components/post.php';
+            } 
+            ?>
+        </div>
+
+
+    <? else: ?>
+        <!-- display random blog posts/accoutns -->
+        <? 
+        foreach(get_posts() as $p_post) {
+            include './components/post.php';
+        } 
+        ?>
+    <? endif; ?>
     </div>
+</div>
     
 
     <? include './components/footer.php'; ?>
