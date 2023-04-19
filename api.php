@@ -1,11 +1,8 @@
 <?php
-   define('HOST', 'localhost');
-   define('USER', 'u362280410_will');
-   define('PASS', 'Fx(GDR+nZd+(@9$');
-   define('NAME', 'u362280410_users');
+   require '../../credentials/blog/db.php';
 
    session_start();
-
+   //credntials from db.php
    $conn = new mysqli(HOST, USER, PASS, NAME);
 
    if ($conn->connect_error) {
