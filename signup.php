@@ -19,7 +19,7 @@
                 <label for="password">Password</label>
                 <input type="password" class="form-control" id="password" placeholder="Password" name="password">
               </div>
-              <button type="submit" class="btn btn-primary mt-3" id="signUp" name="create">Sign Up</button>
+              <button type="submit" class="btn btn-primary mt-3" id="signUp" name="create_user">Sign Up</button>
           </form>
         </div>
         <div class="col-md-4"></div>

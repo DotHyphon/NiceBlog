@@ -26,4 +26,4 @@
         <?php endif; ?>
         
     </div>
-    <h1 class="display-1 text-center text-dark bg-light fw-bold p-5 mb-5">Nice Blog</h1>
+    <a href="./" style="text-decoration: none;"><h1 class="display-1 text-center text-dark bg-light fw-bold p-5 mb-5">Nice Blog</h1><a>
