@@ -1,4 +1,4 @@
-<?php
+<?
    require '../../credentials/blog/db.php';
 
    session_start();
@@ -39,14 +39,19 @@
       global $conn;
       $name = $conn->real_escape_string($_POST['name']);
       $email = $conn->real_escape_string($_POST['email']);
-      $password = $conn->real_escape_string($_POST['password']);
+      $password = $_POST['password'];
+
+      $salt = random_bytes(16);
+      $salted = $password . $salt;
+      $hashed = hash('sha256', $salted);
+      $password = $hashed . ':' . base64_encode($salt);
       
       $sql = "INSERT INTO Users (name, email, password) VALUES ('$name', '$email', '$password')";
       $result = $conn->query($sql);
       if ($result) {
          // echo "User created successfully";
          // echo "<a href='./'>Go home</a>";
-         header('Location: ./login.php');
+         header('Location: ./signin.php');
       } else {
          echo "Error: " . $sql . "<br>" . $conn->error;
       }
@@ -55,10 +60,17 @@
    function login_user() {
       global $conn;
       $email_check = $conn->real_escape_string($_POST['email']);
-      $password_check = $conn->real_escape_string($_POST['password']);
+      $password_check = $_POST['password'];
       $user = get_user_by_email($email_check);
       if ($user) {
-         if($user['password'] == $password_check) {
+         $password = explode(':', $user['password']);
+         $hashed = $password[0];
+         $salt = base64_decode($password[1]);
+         $salted = $password_check . $salt;
+         $hashed_check = hash('sha256', $salted);
+
+
+         if($hashed_check == $hashed) {
             // echo "User logged in successfully";
             // echo "<a href='./'>Go home</a>";
             $_SESSION['user_id'] = $user['id'];
