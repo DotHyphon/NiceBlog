@@ -26,8 +26,9 @@
       </div>
     </div>
 
+    
+    <script src="main.js"></script>
+    
       <? include './components/footer.php'; ?>
       
-      <script src="main.js"></script>
-</body>
-</html>
+      

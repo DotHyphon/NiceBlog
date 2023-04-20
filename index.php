@@ -58,10 +58,9 @@
 </div>
     
 
+    <script src="main.js"></script>
+
     <? include './components/footer.php'; ?>
 
-    <script src="main.js"></script>
-    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    
 
-</body>
-</html>

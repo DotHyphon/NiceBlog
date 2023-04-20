@@ -122,6 +122,25 @@
       return $posts;
    }
 
+   function upload_pfp() {
+      if ($_FILES['image']['error'] === UPLOAD_ERR_OK) {
+         $tmp_name = $_FILES['image']['tmp_name'];
+         $name = $_FILES['image']['name'];
+         $type = $_FILES['image']['type'];
+         $size = $_FILES['image']['size'];
+         $resized_image = $_POST['resized_image'];
+         $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $resized_image));
+         $path = './images/pfp/' . $_SESSION['user_id'];
+         if (file_put_contents($path, $data) !== false) {
+           echo 'File uploaded successfully.';
+         } else {
+           echo 'File upload failed.';
+         }
+       } else {
+         echo 'Error uploading file: ' . $_FILES['image']['error'];
+       }
+   }
+
    if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['create_user']))
    {
       create_user();
@@ -137,6 +156,10 @@
    if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['create_post']))
    {
       create_post();
+   }
+   if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['upload_pfp']))
+   {
+      upload_pfp();
    }
 
    //$result->free_result();

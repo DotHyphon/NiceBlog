@@ -3,3 +3,6 @@
 </footer>
 
 <? $conn->close(); ?>
+
+</body>
+</html>
