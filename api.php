@@ -133,6 +133,7 @@
          $path = './images/pfp/' . $_SESSION['user_id'];
          if (file_put_contents($path, $data) !== false) {
            echo 'File uploaded successfully.';
+           echo ' <a href="./">home</a>';
          } else {
            echo 'File upload failed.';
          }

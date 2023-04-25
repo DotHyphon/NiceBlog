@@ -1,4 +1,5 @@
 const preview = document.querySelector('#preview');
+const submit = document.querySelector('#submit');
 const input = document.querySelector('input[type="file"]');
 input.addEventListener('change', () => {
   const file = input.files[0];
@@ -7,10 +8,9 @@ input.addEventListener('change', () => {
   reader.onload = () => {
     const img = new Image();
     img.src = reader.result;
-    preview.alt = 'test';
-    //preview.src = reader.result;
-    //preview.style.display = 'block';
-    //not working!!!
+    preview.src = reader.result;
+    preview.style.display = 'block';
+    submit.style.display = "block";
     img.onload = () => {
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
