@@ -19,9 +19,12 @@
         <div class="col-md-8">
             <? include './components/createPost.php'; ?>
 
+            <h1>Recent Posts</h1>
+            <br>
+
             <!-- display users own recent posts -->
             <? 
-            foreach(get_posts($_SESSION['user_id']) as $p_post) {
+            foreach(get_posts() as $p_post) {
                 include './components/post.php';
             } 
             ?>
@@ -38,6 +41,8 @@
 
         <!-- left hand column -->
         <div class="col-md-8">
+            <h1><? echo get_user_by_id($_GET['user_id'])['name'] ?>'s Latest Posts</h1>
+            <br>
             <?  
             foreach(get_posts($_GET['user_id']) as $p_post) {
                 include './components/post.php';

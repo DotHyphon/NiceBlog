@@ -1,7 +1,4 @@
-<?php
-    include 'api.php';
-    session_start();
-?>
+<?php include 'api.php'; ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -18,8 +15,10 @@
     <div class="container"> 
         <?php if (isset($_SESSION['logged_in'])): ?>
             <form action="/blog/api.php" method="POST">
-                <button type="submit" class="btn btn-primary my-2" id="logout" name="logout">logout</button>
+                <button type="submit" class="btn btn-primary mx-3 my-2" id="logout" name="logout">logout</button>
+                <a class="btn btn-primary mx-3 my-2" href="./profile.php" id="profile" name="profile">Update Profile</a>
             </form>
+            
         <?php else: ?>
             <a class="btn btn-primary mx-3 my-2" href="./signin.php">Login</a> 
             <a class="btn btn-primary mx-3 my-2" href="./signup.php">Sign Up</a> 

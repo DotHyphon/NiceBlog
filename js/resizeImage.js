@@ -1,6 +1,8 @@
 const preview = document.querySelector('#preview');
 const submit = document.querySelector('#submit');
 const input = document.querySelector('input[type="file"]');
+
+
 input.addEventListener('change', () => {
   const file = input.files[0];
   const reader = new FileReader();

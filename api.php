@@ -11,11 +11,11 @@
 
    function get_user_by_email($email) {
       global $conn;
-      $sql = "SELECT * FROM Users";
+      $sql = "SELECT * FROM users";
       $result = $conn -> query($sql);
       $users = $result->fetch_all(MYSQLI_ASSOC);
       foreach ($users as $user) {
-         if ($user['email'] == $email) {
+         if (strtolower($user['email']) == strtolower($email)) {
             return $user;
          }
       }
@@ -24,7 +24,7 @@
 
    function get_user_by_id($id) {
       global $conn;
-      $sql = "SELECT * FROM Users";
+      $sql = "SELECT * FROM users";
       $result = $conn -> query($sql);
       $users = $result->fetch_all(MYSQLI_ASSOC);
       foreach ($users as $user) {
@@ -46,7 +46,7 @@
       $hashed = hash('sha256', $salted);
       $password = $hashed . ':' . base64_encode($salt);
       
-      $sql = "INSERT INTO Users (name, email, password) VALUES ('$name', '$email', '$password')";
+      $sql = "INSERT INTO users (name, email, password) VALUES ('$name', '$email', '$password')";
       $result = $conn->query($sql);
       if ($result) {
          // echo "User created successfully";
@@ -57,6 +57,7 @@
       }
    }
 
+   
    function login_user() {
       global $conn;
       $email_check = $conn->real_escape_string($_POST['email']);
@@ -134,6 +135,7 @@
          if (file_put_contents($path, $data) !== false) {
            echo 'File uploaded successfully.';
            echo ' <a href="./">home</a>';
+           header('Clear-Site-Data: "storage"');
          } else {
            echo 'File upload failed.';
          }
@@ -141,6 +143,19 @@
          echo 'Error uploading file: ' . $_FILES['image']['error'];
        }
    }
+
+   function update_name() {
+      global $conn;
+      $name = $conn->real_escape_string($_POST['name']);
+      $sql = "UPDATE users SET name = '$name' WHERE id = " . $_SESSION['user_id'];
+      $result = $conn->query($sql);
+      if ($result) {
+         header('Location: ./');
+      } else {
+         echo "Error: " . $sql . "<br>" . $conn->error;
+      }
+   }
+
 
    if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['create_user']))
    {
@@ -161,6 +176,10 @@
    if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['upload_pfp']))
    {
       upload_pfp();
+   }
+   if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_name']))
+   {
+      update_name();
    }
 
    //$result->free_result();
