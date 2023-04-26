@@ -22,7 +22,7 @@
             <h1>Recent Posts</h1>
             <br>
 
-            <!-- display users own recent posts -->
+            <!-- display random recent posts -->
             <? 
             foreach(get_posts() as $p_post) {
                 include './components/post.php';

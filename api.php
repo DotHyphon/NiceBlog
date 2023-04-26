@@ -116,8 +116,8 @@
 
    function get_posts($user_id = null) {
       global $conn;
-      $sql = "SELECT * FROM posts WHERE user_id = '$user_id' ORDER BY created_at DESC";
-      $user_id ? null : $sql = "SELECT * FROM posts ORDER BY created_at DESC";
+      $sql = "SELECT * FROM posts WHERE user_id = '$user_id' ORDER BY created_at DESC LIMIT 50";
+      $user_id ? null : $sql = "SELECT * FROM posts ORDER BY Rand() LIMIT 50";
       $result = $conn->query($sql);
       $posts = $result->fetch_all(MYSQLI_ASSOC);
       return $posts;
